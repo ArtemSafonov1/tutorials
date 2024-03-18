@@ -1,7 +1,7 @@
 from odoo import fields, models
 
 class EstateProperty(models.Model):
-    _name = "estate_property"
+    _name = "estate.property"
     _description = "Estate property description"
 
     name = fields.Char(required=True)
@@ -27,5 +27,5 @@ class EstateProperty(models.Model):
                    ('sold', 'Sold'), ('canceled', 'Canceled')],
         help="Choose state of property",
         default='new',
-        requred=True,
+        required=True,
         copy=False)
