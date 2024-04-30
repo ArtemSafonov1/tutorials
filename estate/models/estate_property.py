@@ -5,6 +5,7 @@ from odoo.tools.float_utils import float_compare
 class EstateProperty(models.Model):
     _name = "estate.property"
     _description = "Estate property description"
+    _order = "id desc"
 
     _sql_constraints = [
         ('expected_price', 'CHECK(expected_price > 0)', 'The expected price must be strictly positive.'),
@@ -105,6 +106,14 @@ class EstateProperty(models.Model):
                 record.best_price = max(prices)
             else:
                 record.best_price = 0
+
+    @api.onchange("offer_ids")
+    def _onchange_offer_ids(self):
+        for record in self:
+            if record.state == "new" and len(record.offer_ids) > 0:
+                record.state = "offer_received"
+            elif len(record.offer_ids) == 0:
+                record.state = "new"
 
     @api.onchange("garden")
     def _onchange_garden(self):

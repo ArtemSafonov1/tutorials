@@ -16,11 +16,26 @@
         <field name="arch" type="xml">
             <form>
                 <sheet>
-                    <group>
-                        <h1>
-                            <field name="name" class="oe_inline"/>
-                        </h1>
-                    </group>
+                    <div class="oe_button_box" name="button_box" groups="base.group_user">
+                        <button type="action" name="%(estate_property_offer_action)d"
+                                string="Offers" icon="fa-money" class="oe_stat_button">
+                            <field name="offer_count" widget="statinfo" string="Offers"/>
+                        </button>
+                    </div>
+                    <h1>
+                        <field name="name"/>
+                    </h1>
+                    <notebook>
+                        <page string="Properties">
+                            <field name="property_ids">
+                                <tree>
+                                    <field name="name" string="Title"/>
+                                    <field name="expected_price"/>
+                                    <field name="state"/>
+                                </tree>
+                            </field>
+                        </page>
+                    </notebook>
                 </sheet>
             </form>
         </field>
@@ -31,6 +46,7 @@
         <field name="model">estate.property.type</field>
             <field name="arch" type="xml">
                 <tree>
+                    <field name="sequence" widget="handle"/>
                     <field name="name" string="Title"/>
                 </tree>
             </field>
