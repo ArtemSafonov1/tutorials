@@ -1,4 +1,5 @@
 from odoo import api, fields, models
+from odoo.exceptions import ValidationError
 
 class EstatePropertyOffer(models.Model):
     _name = "estate.property.offer"
@@ -65,3 +66,10 @@ class EstatePropertyOffer(models.Model):
                 record.property_id.state = "offer_received"
             record.status = 'refused'
         return True
+    
+    @api.model
+    def create(self, vals):
+        property = self.env['estate.property'].browse(vals['property_id'])
+        if vals['price'] <= property.best_price:
+            raise ValidationError(f'The offer price must be higher that {property.best_price}')
+        return super().create(vals)
