@@ -8,13 +8,13 @@ class EstateProperty(models.Model):
         for record in self:
             self.env['account.move'].create(
                 {
-                    "partner_id": self.buyer_id.id,
+                    "partner_id": record.buyer_id.id,
                     "move_type": "out_invoice",
                     "line_ids": [
                         Command.create({
                             "name": "6% of the selling price",
                             "quantity": 1,
-                            "price_unit": self.selling_price * 0.06
+                            "price_unit": record.selling_price * 0.06
                         }),
                         Command.create({
                             "name": "An additional 100.00 from administrative fees",
